@@ -1,0 +1,161 @@
+{% extends "layout.html" %}
+{% block content %}
+
+
+ 
+<div class="row" id='admin-tab'>
+
+    <div class="col-4 col-admin">
+        <a href="#" onclick="ShowTable('users-table')" class="btn  w-100 btn-admin p-1" role="button" data-bs-toggle="button">Users</a>
+    </div>
+    <div class="col-4 col-admin">
+        <a href="#" onclick="ShowTable('orders-table')" class="btn  w-100 btn-admin p-1" role="button" data-bs-toggle="button">Orders</a>
+    </div>
+    <!-- <div class="col-3 col-admin">
+        <a href="#" onclick="ShowTable('payments-table')" class="btn  w-100 btn-admin" role="button" data-bs-toggle="button">Payments</a>
+    </div> -->
+    <div class="col-4 col-admin">
+        <a href="#" onclick="ShowTable('products-table')" class="btn  w-100 btn-admin p-1" role="button" data-bs-toggle="button">Products</a>
+    </div>
+
+</div>
+<script>
+    function ShowTable(table_id){
+        var tables = document.getElementById('tables-admin').getElementsByTagName('table')
+        for (var i = 0; i < tables.length; i++) {
+            tables[i].classList.remove("visible");
+            tables[i].classList.add("invisible");
+            }
+        var table_visible = document.getElementById(table_id);
+        table_visible.classList.remove("invisible");
+        table_visible.classList.add("visible");
+
+    }
+</script>
+<div id='tables-admin'>
+
+    <table class="table table-dark table-striped  position-absolute visible w-100" id='users-table' style="font-size: .8rem;">
+        <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Name</th>
+              <th scope="col">Surname</th>
+              <th scope="col">Email</th>
+              <th scope="col">Address</th>
+              <th scope="col">City</th>
+              <th scope="col">Country</th>
+              <th scope="col">Zip Code</th>
+              <th scope="col">Verified</th>
+              <th scope="col">Premium</th>
+              <th scope="col">Edit</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for user in Users %}
+            <tr>
+              <th scope="row">{{ user.id }}</th>
+              <td>{{ user.lastname  }}</td>
+              <td>{{ user.firstname  }}</td>
+              <td>{{ user.email  }}</td>
+              <td>{{ user.address  }}</td>
+              <td>{{ user.city  }}</td>
+              <td>{{ user.contry  }}</td>
+              <td>{{ user.zip_code  }}</td>
+              <td>{{ user.verified  }}</td>
+              <td>{{ user.premium  }}</td>
+              <td><a href="{{ url_for('edit_user',id=user.id )}}" >
+                <svg xmlns="http://www.w3.org/2000/svg" style="color: white" width="16" height="16" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
+                  <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z"/>
+                </svg>
+              </a></td>
+            </tr>
+
+            {% endfor %}
+        
+          </tbody>
+      </table>
+
+
+
+
+
+    
+    <table class="table table-dark table-striped position-absolute invisible w-100" id='products-table' style="font-size: .8rem;">
+        <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col"></th>
+              <th scope="col">Name</th>
+              <th scope="col">Price</th>
+              <th scope="col">Category</th>
+              <th scope="col">Quantity</th>
+              <th scope="col">Active</th>
+              <th scope="col">Premium</th>
+              <th scope="col">Edit</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for product in Products %}
+            <tr>
+              <th scope="row">{{ product.id }}</th>
+              <td><img src="{{url_for('static', filename= '/images/products/' + product.image1 )}}" style="width: 75px;" class="rounded float-left" alt="..."></td>
+              <td>{{ product.productname  }}</td>
+              <td>{{ product.price  }}</td>
+              <td>{{ product.category  }}</td>
+              <td>{{ product.quantity  }}</td>
+              <td>{{ product.active  }}</td>
+              <td>{{ product.premium  }}</td>
+              <td>
+              <a href="{{ url_for('product',id=product.id )}}" >
+                <svg xmlns="http://www.w3.org/2000/svg" style="color: white" width="16" height="16" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
+                  <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z"/>
+                </svg>
+              </a>
+            </td>
+            </tr>
+
+            {% endfor %}
+        
+          </tbody>
+      </table>
+
+
+
+
+
+    
+    <table class="table table-dark table-striped  position-absolute invisible w-100" id='orders-table' style="font-size: .8rem;">
+        <thead>
+            <tr>
+              
+              <th scope="col">ID</th>
+              <th scope="col">Customer</th>
+              <th scope="col">Product</th>
+              <th scope="col">Quantity</th>
+              <th scope="col">Total Price</th>
+              <th scope="col">Stripe ID</th>
+             
+              
+            </tr>
+          </thead>
+          <tbody>
+            {% for order in orders %}
+            <tr>
+              <th scope="row">{{ order.id }}</th>
+              <td>{{ order.customerID  }}</td>
+              <td>{{ order.productID  }}</td>
+              <td>{{ order.quantity  }}</td>
+              <td>{{ order.total_price  }}</td>
+              <td>{{ order.stripe_session_id  }}</td>
+
+            </tr>
+
+            {% endfor %}
+        
+          </tbody>
+      </table>
+
+
+</div>
+{% endblock %}
+

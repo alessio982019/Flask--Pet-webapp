@@ -1,0 +1,162 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<div class="container-fluid">
+<form method="POST">
+    {{ form.hidden_tag() }}
+    <div class="form-row">
+
+        <div class="form-group col-2 mx-1">
+            <label for="inputPassword4  ">Title</label>
+            
+            {{ form.title(class="form-control w-100 ", placeholder='Title') }}
+        </div>
+        <div class="form-group col-2 mx-1">
+            <label for="inputPassword4  ">Type</label>
+            
+            {{ form.type(class="form-control w-100 ", placeholder='Type') }}
+        </div>  
+
+        <div class="form-group col-2 mx-1">
+            <label for="inputPassword4  ">Category</label>
+            
+            {{ form.category(class="form-control w-100 ", placeholder='Category') }}
+        </div>  
+
+        <div class="form-group col-2 mx-1">
+            <label for="inputPassword4  ">Location</label>
+            
+            {{ form.location(class="form-control w-100 ",id="locationTextField", placeholder='Location') }}
+
+            
+
+                    <script>
+                      function init() {
+                        var options = {
+                        types: ['(cities)'],
+                        };
+                         var input = document.getElementById('locationTextField');
+                         var autocomplete = new google.maps.places.Autocomplete(input,options);
+                      }
+                    google.maps.event.addDomListener(window, 'load', init);
+                    </script>
+                  
+        </div>  
+
+        
+
+    
+    </div>
+    <div class="form-row">
+        <div class="form-group col-1 mx-1">
+           
+            
+            {{ form.submit(class="form-control w-100  btn-outline-success ", placeholder='Search') }}
+        </div> 
+        <div class="form-group col-1 mx-1">
+            
+            <a href="{{ url_for('home') }}" class=" form-control w-100  btn-outline-danger" role="button" aria-disabled="true">Clear</a>
+            
+        </div> 
+
+
+    </div>
+</form>
+</div>
+
+
+<div class="row">
+
+    
+    {% for post in posts %}
+    
+    
+            <div class="container-box col-xl-3 col-lg-4 col-md-6 col-sm-6 col-6 ">
+                <div id='container-post'>
+                <a class="btn transparent  btn-lg  " style="padding: 0!important" role="button"  href="{{url_for('post', id = post.id) }}">
+                    <div class="product-box   border text-center " id="product-container"  >
+                        <p class='' style='color:black'>{{ post.type }}</p>
+
+                        <div class="box-picture position-relative">
+                            
+                            <img class="product-image img-fluid img-thumbnail " src="{{url_for('static', filename= '/images/products/' + post.picture )}}" alt="">
+                            
+                            <div id='like_btn' class="d-inline-flex">
+                                {% if current_user.is_authenticated %}
+
+                                    {% if current_user.has_liked_post(post) %}
+                                    
+                                        <a  href="{{ url_for('like_post',id=post.id, action='unlike' ) }}" >
+                                            <small style="color: black;" class="m-1">{{ post.likes.count() }}</small>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" style="color: red"fill="currentColor" class="bi bi-heart-fill " viewBox="0 0 16 16">
+                                                <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
+                                            </svg>
+                                        </a>
+                                    
+                                    {% else %}
+                                        <a  href="{{ url_for('like_post',id=post.id, action='like' ) }}">   
+                                            <small style="color: black;" class="m-1">{{ post.likes.count() }}</small>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" style="color: red"fill="currentColor" class="bi bi-heart-fill " viewBox="0 0 16 16">
+                                                <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
+                                            </svg>
+                                        </a>
+                                    {% endif %}
+
+
+                        {% else  %}
+                                        
+                        <small style="color: black;" class="m-1">{{ post.likes.count() }}</small>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" style="color: red"fill="currentColor" class="bi bi-heart-fill " viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
+                          </svg>
+
+                        
+
+                        {% endif %}
+
+                            </div>
+                        </div>
+
+
+                        <div class="box-header w-100 text-center">
+                            <h5 class="font-weight-bold my-1 text-dark">{{ post.title }}</h5>
+                        </div>
+                        
+
+
+
+                        <div class="box-header w-100 text-center  d-flex justify-content-between px-2">
+                            <small>
+                                <p class="font-light-bold my-1 text-dark">{{ post.author.firstname }}</p>
+                            </small>
+                            <small>
+                                <p class="font-light-bold my-1 text-dark">{{ post.location }}</p>
+                            </small>
+
+                            <small>
+                                <p class="font-light-bold my-1 text-dark">{{ post.category }}</p>
+                            </small>
+                        </div>
+
+
+                     
+
+                            
+                      
+                        
+                    </div>
+                </a>
+            </div>
+            </div>
+  
+    {% endfor %}
+
+</div>
+<script>
+
+
+</script>
+
+
+
+{% endblock %}

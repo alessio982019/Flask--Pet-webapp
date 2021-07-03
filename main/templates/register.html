@@ -1,0 +1,156 @@
+{% extends "layout.html" %}
+{% block content %}
+
+
+    
+<div class="container-fluid">
+  
+    <div class="row ">
+     
+      <div class="col-xl-2 col-lg-2 col-md-2 col-1"></div>
+        <div class="col-xl-8 col-lg-8 col-md-8 col-10" style="padding-top:.5rem;">
+
+<form class="loginForm shadow-lg p-3 mb-5 bg-white rounded border border-success" enctype="multipart/form-data" method="POST">
+    {{ form.hidden_tag() }}
+    <div class="form-row">
+      <div class="form-group col-12">
+        <label for="inputEmail4">Type</label>
+        {{ form.type(class="form-control", placeholder='Type') }}
+                          {% if form.type.errors %}
+                                  {% for error in form.type.errors %}
+                                  <small id="passwordHelp" class="text-danger"><strong>Error: </strong>{{error}} </small>
+                                  {% endfor %}                          
+                          {% endif%}
+      </div>
+      
+    </div> 
+    
+    
+    <div class="form-row">
+
+        <div class="form-group col-md-6">
+          <label >First Name</label>
+          {{ form.firstname(class="form-control", placeholder='First Name') }}
+        </div>
+
+        <div class="form-group col-md-6">
+          <label for="inputPassword4">Last Name</label>
+          {{ form.lastname(class="form-control", placeholder='Last Name') }}
+                 
+        </div>
+      </div>
+  <div class="form-row">
+    <div class="form-group col-12">
+      <label for="inputEmail4">Email</label>
+      {{ form.email(class="form-control", placeholder='Email') }}
+                        {% if form.email.errors %}
+                                {% for error in form.email.errors %}
+                                <small id="passwordHelp" class="text-danger"><strong>Error: </strong>{{error}} </small>
+                                {% endfor %}                          
+                        {% endif%}
+    </div>
+    
+  </div>   
+  
+  <div class="form-row">
+    <div class="form-group col-md-6 " style="margin-bottom: 0rem!important;">
+        <label for="inputPassword4">Password</label>
+        {{ form.password(class="form-control ", placeholder='Password') }}
+        {% if form.password.errors %}
+ 
+            {% for error in form.password.errors %}
+            <div class="alert " role="alert" style="margin:0rem!important;padding:0;">
+
+            <small id="passwordHelp" class="text-danger"><strong>Error: </strong>{{error}} </small>
+            </div>
+            {% endfor %}
+
+    
+        {% endif%}
+    </div>
+    
+    <div class="form-group col-md-6" style="margin-bottom: 0rem!important;">
+        <label for="inputPassword4">Confirm Password</label>
+        
+        {{ form.confirm_password(class="form-control ", placeholder='Confirm Password') }}
+
+        {% if form.confirm_password.errors %}
+                            
+        
+        {% for error in form.confirm_password.errors %}
+        <div class="alert " role="alert" style="margin:0rem!important;padding:0;">
+        <small id="passwordHelp" class="text-danger"><strong>Error: </strong>{{error}} </small>
+    </div>
+        {% endfor %}
+
+
+        {% endif%}
+    </div>
+
+  </div> 
+
+  <div class="form-group" style="margin-bottom: 0rem!important;">
+    <label for="inputAddress">Address</label>
+    {{ form.address(class="form-control ", placeholder='Address') }}
+  </div>
+ 
+  <div class="form-row">
+    <div class="form-group col-md-6" style="margin-bottom: 0rem!important;">
+      <label for="inputCity">City</label>
+      {{ form.city(class="form-control ", placeholder='City') }}
+    </div>
+    <div class="form-group col-md-4" style="margin-bottom: 0rem!important;" >
+      <label for="inputState">Country</label>
+      {{ form.country(class="form-control ", placeholder='Country') }}
+    </div>
+    <div class="form-group col-md-2" style="margin-bottom: 0rem!important;">
+      <label for="inputZip">Zip Code</label>
+      {{ form.zip_code(class="form-control ", placeholder='Zip Code') }}
+    </div>
+  </div>
+
+  <div class="form-check py-3">
+    
+    {{ form.termsConditions(class="form-check-label", placeholder='Terms and conditions') }}
+    <label class="form-check-label" for="exampleCheck1">Website terms and conditions are vital to the long-term success and security of your online business, as they outline the rules by which you and your users must abide. Without terms, you could be subject to abusive users, intellectual property theft, and unnecessary litigation.</label>
+    {% if form.termsConditions.errors %}
+                                {% for error in form.termsConditions.errors %}
+                                <small id="passwordHelp" class="text-danger"><strong>Error: </strong>{{ error }} </small>
+                                {% endfor %}                          
+     {% endif %}  
+  
+  
+  </div>
+
+
+  <!-- FILE                  -->
+                    <!-- FILE                  -->
+                    <div class="form-group col-6 " >
+
+                    
+
+                      {{ form.picture(class="form-control-file")}}
+
+                      {% if form.picture.errors %}
+                          {% for error in form.picture.errors  %}
+                              <span class="text-danger">{{ error }}</span></br>
+                          {% endfor %}
+
+                      {% endif %}
+
+                  </div>
+  <button type="submit" class="btn btn-success btn-block my-2">Sign Up!</button>
+</form>
+
+    </div>
+  
+    <div class="col-xl-2 col-lg-2 col-md-2 col-1"></div>
+
+</div>
+
+
+   
+
+
+{% endblock %}
+

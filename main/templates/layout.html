@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    {{ flask_util_js.js }}
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Dosis:wght@200&family=Montserrat:wght@200&display=swap" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=" + google_maps_api_key + "&libraries=places"></script>
+    
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    
+    <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='CSS/homeStyle.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='CSS/loginStyle.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='CSS/productstyle.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='CSS/main_style.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='CSS/adminstyle.css')}}">
+    <script src="https://js.stripe.com/v3/"></script>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="{{url_for('static',filename='JS/Script.js')}}"></script>
+    <title>PetLover</title>
+  
+      
+   
+    <nav class="navbar navbar-expand-lg navbar-light bg-light px-3 py-1 px-md-5" >
+ 
+      <button class="navbar-toggler"style= "background-color: white;" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    
+      <div class="collapse navbar-collapse " id="navbarSupportedContent">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item active px-2 py-2 ">
+              
+              <a role="button" href="{{url_for('home') }}" class="nav-link activetext-center align-middle">Home</a>
+          </li>
+          
+          <!-- <li class="nav-item px-2 py-2">
+            <a role="button" href="{{url_for('cart') }}" class="nav-link active  text-center">
+            <svg xmlns="http://www.w3.org/2000/svg" style="color: white" width="20" height="20" fill="currentColor" class="bi bi-basket3" viewBox="0 0 16 16">
+              <path d="M5.757 1.071a.5.5 0 0 1 .172.686L3.383 6h9.234L10.07 1.757a.5.5 0 1 1 .858-.514L13.783 6H15.5a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5H.5a.5.5 0 0 1-.5-.5v-1A.5.5 0 0 1 .5 6h1.717L5.07 1.243a.5.5 0 0 1 .686-.172zM3.394 15l-1.48-6h-.97l1.525 6.426a.75.75 0 0 0 .729.574h9.606a.75.75 0 0 0 .73-.574L15.056 9h-.972l-1.479 6h-9.21z"/>
+            </svg>
+            <span class='badge badge-warning' id='lblCartCount'> {{ itemsCart }} </span>
+            </a>
+        </li> -->
+          
+          
+                <li class="nav-item px-2 py-2">
+                  <a role="button" href="{{ url_for('add_post') }}" class="nav-link active  text-center">Add a new post!</a>
+              </li>
+              {% if current_user.email == 'alessiogiovannini@hotmail.it' %}
+              <li class="nav-item px-2 py-2">
+                <a role="button" href="{{ url_for('admin') }}" class="nav-link active  text-center">Admin</a>
+            </li>
+          {% endif  %}  
+              {% if current_user.is_authenticated  %}
+
+                      <li class="nav-item px-2 py-2">
+                        <a role="button" href="{{url_for('profile', id = current_user.id) }}" class="nav-link active text-center "><img style="border-radius: 20px;" width=48 src="{{ url_for('static', filename='/images/products/' + current_user.picture)}}" alt=""></a>
+                         
+                      </li>
+                      <li class="nav-item px-2 py-2">
+                        <a role="button" href="{{url_for('logout') }}" class="nav-link active text-center" ><img src="{{ url_for('static',filename='/images/App/logout.png')}}" alt=""></a>
+                    </li>
+          {% else  %}  
+                      <li class="nav-item px-2 py-2">
+                          <a role="button" href="{{url_for('login',prevUrl = request.url_rule) }}" onclick="LoginForm()"class="nav-link active  text-center">Login</a>
+                          <!-- <a role="button" href="#" onclick="LoginForm()" class="nav-link active text-white text-center">Login</a> -->
+                          
+                      </li>
+                      
+                      <li class="nav-item px-2 py-2">
+                          <a role="button" href="{{url_for('register') }}" class="nav-link active  text-center">Sign Up</a>
+                      </li>
+
+          {% endif  %}  
+
+        </ul>
+        
+
+        
+      </div>
+    </nav>
+
+  </head>
+ 
+  <!-- <body style="background-image: url({{url_for('static', filename= '/images/app/background.jpg' )}}) ;height:100vh;overflow:scroll"> -->
+    <body style="background-image: url({{url_for('static', filename= '/images/App/background1.jpeg')}}">
+    
+    
+    
+    
+          <!-- MESSAGES FROM ROUTES -->
+{% with messages = get_flashed_messages(category_filter=["success"]) %}
+
+    {% if messages %}
+
+            {% for msg in  messages %}
+            
+            <div class="alert alert-success mb-3 w-100" id = "flashMsg" style="text-align: center;">{{msg}}</div>
+            {% endfor %}
+            
+    {% endif %}
+
+{% endwith %}
+
+
+{% with messages = get_flashed_messages(category_filter=["error"]) %}
+
+    {% if messages %}
+
+            {% for msg in  messages %}
+            
+            <div class="alert alert-danger mb-3 w-100" style="text-align: center;">{{msg}}</div>
+            {% endfor %}
+            
+    {% endif %}
+
+{% endwith %}
+
+<!-- END MESSAGES FROM ROUTES -->
+
+  
+
+
+
+
+<div class="row d-flex justify-content-center">
+
+  <!-- <div class="col-xl-2 col-lg-2 col-md-2 col-sm-1"></div> -->
+  <div id ="main_container" class="col-xl-8 col-lg-8 col-md-8 col-sm-10 col-12 py-2 my-3 main-content-container" >        
+        {% block content %}
+  
+  
+  
+  
+        {% endblock %}
+      </div>
+
+        <!-- <div class="col-xl-2 col-lg-2 col-md-2 col-sm-1" ></div> -->
+          
+    </div>
+    </body>
+</html>
+
+
+
+

@@ -1,0 +1,43 @@
+{% extends "layout.html" %}
+{% block content %}
+
+
+<div class="row">
+
+    
+    {% for product in Products %}
+
+
+    <div class="container-box col-xl-3 col-lg-4 col-md-6 col-sm-6 col-6">
+        <a class="btn btn-light  btn-lg  " style="padding: 0!important" role="button"  href="{{url_for('product', id = product.id) }}">
+            <div class="product-box   border " id="product-container"  >
+                <!-- <form method="GET" id = "view_product_form" action="{{ url_for('product',id=product.id) }}">
+                
+                </form> -->
+                <div class="box-picture ">
+                    <img class="product-image img-fluid img-thumbnail " src="{{url_for('static', filename= '/images/products/' + product.image1 )}}" alt="">
+                </div>
+                <div class="box-header w-100 text-center">
+                    <p class="font-weight-light my-1 text-dark">{{ product.productname }}</p>
+                </div>
+                <div class="box-header w-100 text-center py-md-1">
+                    <p class="font-weight-light my-1 text-dark">{{ product.price }}</p>
+                </div>
+
+            </div>
+
+        </a>
+    </div>
+
+
+    {% endfor %}
+
+</div>
+<script>
+
+
+</script>
+
+
+
+{% endblock %}

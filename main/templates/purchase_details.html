@@ -1,0 +1,100 @@
+{% extends "layout.html" %}
+{% block content %}
+
+
+    
+<div class="container-fluid">
+  
+
+  
+    <div class="row ">
+     
+        
+        <div class="col-12" style="padding-top:.5rem;">
+
+<form class="loginForm shadow-lg p-3 mb-5 bg-white rounded" style="color:white;background-color: white;opacity: 0.7;padding:1rem"  method="POST">
+    {{ form.hidden_tag() }}
+    <div class="form-row">
+
+        <div class="form-group col-md-6">
+          <label >First Name</label>
+          {{ form.firstName(class="form-control", placeholder='First Name') }}
+        </div>
+
+        <div class="form-group col-md-6">
+          <label for="inputPassword4">Last Name</label>
+          {{ form.lastname(class="form-control", placeholder='Last Name') }}
+                 
+        </div>
+      </div>
+  <div class="form-row">
+    <div class="form-group col-12">
+      <label for="inputEmail4">Email</label>
+      {{ form.email(class="form-control", placeholder='Email') }}
+                        {% if form.email.errors %}
+                                {% for error in form.email.errors %}
+                                <small id="passwordHelp" class="text-danger"><strong>Error: </strong>{{error}} </small>
+                                {% endfor %}                          
+                        {% endif%}
+    </div>
+    
+  </div>   
+  
+  
+
+  <div class="form-group" style="margin-bottom: 0rem!important;">
+    <label for="inputAddress">Address</label>
+    {{ form.address(class="form-control ", placeholder='Address') }}
+  </div>
+ 
+  <div class="form-row">
+    <div class="form-group col-md-6" style="margin-bottom: 0rem!important;">
+      <label for="inputCity">City</label>
+      {{ form.city(class="form-control ", placeholder='City') }}
+    </div>
+    <div class="form-group col-md-4" style="margin-bottom: 0rem!important;" >
+      <label for="inputState">Country</label>
+      {{ form.country(class="form-control ", placeholder='Country') }}
+    </div>
+    <div class="form-group col-md-2" style="margin-bottom: 0rem!important;">
+      <label for="inputZip">Zip Code</label>
+      {{ form.zip_code(class="form-control ", placeholder='Zip Code') }}
+    </div>
+  </div>
+  
+  <button type="submit" onClick="" id = 'paymentBtn' class="btn border border-white btn-success btn-block my-4">Pay!</button>
+</form>
+
+    </div>
+  
+
+
+</div>
+
+
+<script>
+
+        
+
+        // A reference to Stripe.js initialized with your real test publishable API key.
+        var checkout_public_key = '{{ checkout_public_key }}';
+        var checkout_session_id = '{{ checkout_session_id }}';
+        
+        const button = document.querySelector('#paymentBtn');
+        var stripe = Stripe(checkout_public_key);
+        button.addEventListener('click', event =>{
+                console.log(checkout_public_key)
+                stripe.redirectToCheckout({
+                sessionId: checkout_session_id
+                }).then(function(result){
+
+
+        })
+
+  });
+
+</script>
+
+
+{% endblock %}
+
