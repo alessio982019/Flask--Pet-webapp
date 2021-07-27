@@ -1,48 +1,41 @@
 {% extends "layout.html" %}
 {% block content %}
 
-{% if current_user.id == user.id %}
-<div class="float-right" style="width: 100%;text-align: right;" >
-    <a href="{{ url_for('edit_user',id=user.id )}}" style="color:black;">
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
-        <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
-      </svg>
 
 
-    </a>
-  
+  <div class="row">
+      <div class="col-4 justify-content-center">
+        <img src="{{ url_for('static',filename='/images/products/' + user.picture )}}" class="img-fluid text-center"  >
+      </div>
+
+      <div class="col-8 ">
+        <h5 class=" py-1 font-weight-bold">{{ user.firstname }}  {{ user.lastname }}</h5>
+      </div>
   </div>
-  {% endif %}
-<div class="d-flex p-3 " id='profile-tab'>
-    <img src="{{ url_for('static',filename='/images/products/' + user.picture )}}" class="rounded" >
-    
-    <div class="w-100 text-center">
-        <h1 class="px-5 py-1 font-weight-bold">{{ user.firstname }}  {{ user.lastname }}</h1>
-        <div class="w-100 text-left px-5">
-          
 
-        </div>
-        
+  <h1 class='text-center py-3 border-bottom border-black'>My posts!</h1> 
+<div class="row">
 
 
-    </div>
-
-    
-      
-</div>
-         
-<div class=" d-flex p-3  my-2">
 
     {% for post in posts %}
-    <div class="container-box col-xl-3 col-lg-4 col-md-6 col-sm-6 col-6 ">
+    <div class="container-box col-xl-3 col-lg-4 col-md-6 col-sm-6 col-6 px-0" >
         <div id='container-post'>
-        <a class="btn transparent  btn-lg  " style="padding: 0!important" role="button"  href="{{url_for('post', id = post.id) }}">
+       
             <div class="product-box   border " id="product-container"  >
            
                 <div class="box-picture position-relative">
+                    <a class="btn transparent  btn-lg  " style="padding: 0!important" role="button"  href="{{url_for('post', id = post.id) }}"> 
+                        <img class="product-image img-fluid  " src="{{url_for('static', filename= '/images/products/' + post.picture )}}" alt="">
+                    </a>
+
                     
-                    <img class="product-image img-fluid img-thumbnail " src="{{url_for('static', filename= '/images/products/' + post.picture )}}" alt="">
-                    
+                </div>
+
+
+              
+                <div class="box-header w-100 py-2 px-2 justify-content-between d-flex">
+                    <h5 class="font-weight-light my-1 text-dark">{{ post.title }}</h5>
                     <div id='like_btn' class="d-inline-flex">
                         {% if current_user.is_authenticated %}
 
@@ -79,25 +72,8 @@
                     </div>
                 </div>
 
-
-                <div class="box-header w-100 text-center">
-                    <h5 class="font-weight-bold my-1 text-dark">{{ post.author.firstname }}</h5>
-                </div>
-                <div class="box-header w-100 text-center">
-                    <h5 class="font-weight-light my-1 text-dark">{{ post.title }}</h5>
-                </div>
-                
-
-           
-
-
-             
-
-                    
-              
-                
             </div>
-        </a>
+    
     </div>
     </div>
 

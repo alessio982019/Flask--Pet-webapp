@@ -1,7 +1,7 @@
 .product-box{
     width: 100%;
-    padding: 0!important;
-  
+    
+    background-color: rgba(255, 255, 255);
 }
 
 body{
@@ -13,10 +13,7 @@ body{
     background-size: cover;
 
 }
-#container-post{
-    background-color: rgba(255, 255, 255, 0.7);
-    
-}
+
 #profile-tab{
     font-family: 'Dosis', sans-serif;
 }
@@ -34,28 +31,25 @@ nav{
     
 }
 #like_btn {
-    border-radius: 95%;
-    background-color: rgba(255, 255, 255, 0.7);
-    position: absolute;
-     top: 100%;
-     left: 100%;
-     transform: translate(-125%, -125%);
+
  }
 
+
+ #container-post p{
+     font-size: 1rem;
+     margin-bottom: 0!important;
+ }
+ #container-post h5{
+    font-size: 1.25rem;
+}
 /* Extra small devices (phones, 600px and down) */
 @media only screen and (max-width: 600px) {
-    .container-box{
-        padding: 5px!important;
-        
-    }
+  
 }
 
 /* Small devices (portrait tablets and large phones, 600px and up) */
 @media only screen and (min-width: 600px) {
-    .container-box{
-        padding: 5px!important;
-        
-    }
+  
 
 }
 

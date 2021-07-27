@@ -56,6 +56,9 @@
   .header{
     font-size: .7rem!important;
   }
+  #post-author{
+    padding-left:1rem!important;
+  }
 }
 
 /* Large devices (laptops/desktops, 992px and up) */
