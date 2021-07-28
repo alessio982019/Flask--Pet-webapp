@@ -46,16 +46,6 @@ class editUser(FlaskForm):
             raise ValidationError('That email is taken, please use a different one!')
 
 
-class purchaseDetails(FlaskForm):
-    firstname = StringField('firstname', validators=[DataRequired(),Length(min=2,max=50)])
-    lastname = StringField('lastname', validators=[DataRequired(),Length(min=2,max=50)])
-    address = StringField('Address', validators=[DataRequired(),Length(min=2,max=50)])
-    city = StringField('City', validators=[DataRequired(),Length(min=2,max=50)])
-    country = StringField('Country', validators=[DataRequired(),Length(min=2,max=50)])
-    zip_code = StringField('Zip Code', validators=[DataRequired(),Length(min=2,max=50)])
-    email = StringField('Email',validators=[DataRequired(),Email()])
-    submit = SubmitField('Save')
-
 class editProfile(FlaskForm):
     firstname = StringField('firstname', validators=[DataRequired(),Length(min=2,max=50)])
     lastname = StringField('lastname', validators=[DataRequired(),Length(min=2,max=50)])
@@ -74,18 +64,7 @@ class LoginForm(FlaskForm):
     password = PasswordField('Password',validators=[DataRequired()])
     submit = SubmitField('Login')
 
-class addProductToList(FlaskForm):
-    productname = StringField('Product Name',validators=[DataRequired()])
-    price = FloatField('Price',validators=[DataRequired()])
-    description = TextAreaField(render_kw={"rows":2, "cols": 8}) 
-    category = SelectField('Category',validators=[DataRequired()])
-    quantity = FloatField('Availability',validators=[DataRequired()])
-    picture = MultipleFileField('Images', validators=[ FileAllowed(['jpg','png','jpeg'])])
-    details = TextAreaField(render_kw={"rows":5, "cols": 8}) 
-    product_price_key = StringField('Product Price Key',validators=[DataRequired()]) 
-    premium =  BooleanField('Premium')
-    submit = SubmitField('Submit')
-    back = SubmitField('Back')
+
 
 class addPost(FlaskForm):
     title = StringField('Post title',validators=[DataRequired()])
@@ -96,6 +75,7 @@ class addPost(FlaskForm):
     location = StringField('Location',validators=[DataRequired()])
     submit = SubmitField('Submit')
     back = SubmitField('Back')
+
 class editPost(FlaskForm):
     title = StringField('Post title',validators=[DataRequired()])
     text = TextAreaField(render_kw={"rows":3, "cols": 4}) 
@@ -114,55 +94,14 @@ class filterPosts(FlaskForm):
     submit = SubmitField('Search')
     
 
-class addtoShoppingCart(FlaskForm):
-    quantity = FloatField('THC',validators=[DataRequired()])
-    submit = SubmitField('Submit')
 
 
-
-class editProduct(FlaskForm):
-    productname = StringField('Product Name',validators=[DataRequired()])
-    price = FloatField('Price',validators=[DataRequired()])
-    description = TextAreaField(render_kw={"rows":10, "cols": 11}) 
-    category = SelectField('Category',validators=[DataRequired()])
-    quantity = FloatField('Availability',validators=[DataRequired()])
-    picture = MultipleFileField('Images', validators=[ FileAllowed(['jpg','png','jpeg'])])
-    product_price_key = StringField('Product Price Key',validators=[DataRequired()]) 
-    active = BooleanField('Active')
-    details = TextAreaField(render_kw={"rows":5, "cols": 8}) 
-    premium =  BooleanField('Premium')
-    submit = SubmitField('Submit')
-    back = SubmitField('Back')
-
-class filterProducts(FlaskForm):
-    productname = StringField('Product Name')
-    Price = FloatField('Price',default=99999)
-    Category = SelectField('Category')
-    PriceMax = FloatField('Max Price',validators=[DataRequired()])
-    PriceMin = FloatField('Min Price',validators=[DataRequired()])
-    active = BooleanField('Active')
-    submit = SubmitField('Search!')
 
 class SendEmail(FlaskForm):
     recipient = StringField('Recipient',validators=[DataRequired()])
     description = TextAreaField('Body',render_kw={"rows":10, "cols": 11})
     submit = SubmitField('Send')
-class UpdateAccountForm(FlaskForm):
-    firstname = StringField('firstname', validators=[DataRequired(),Length(min=2,max=20)])
-    email = StringField('Email',validators=[DataRequired(),Email()])
-    password = StringField('Password', validators=[DataRequired()])
-    submit = SubmitField('Update')
 
-    def validate_firstname(self,firstname):
-        if firstname.data != current_user.firstname:
-            name = User.query.filter_by(firstname=firstname.data).first()
-            if name:
-                raise ValidationError('That firstname is taken, please use a different one!')
-    def validate_email(self,email):
-        if email.data != current_user.email:
-            email_user = User.query.filter_by(email= email.data).first()
-            if email_user:
-                raise ValidationError('That email is taken, please use a different one!')
 class EditProfile(FlaskForm):
     firstname = StringField('firstname', validators=[DataRequired(),Length(min=2,max=20)])
     lastname = StringField('lastname', validators=[DataRequired(),Length(min=2,max=20)])

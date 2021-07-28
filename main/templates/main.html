@@ -71,12 +71,12 @@
     {% for post in posts %}
     
     
-            <div class="container-box col-12 col-sm-6 col-md-6 col-xl-3 col-lg-4   ">
-                <div id='container-post' class='py-3 border'>
+            <div class="container-box col-12 col-sm-6 col-md-6 col-xl-3 col-lg-4  p-1 ">
+                <div id='container-post' class='py-1 border'>
                 
                     <div class="product-box   text-center " id="product-container "  >
-                        <p class='post-type py-2' style='color:black'>{{ post.type }}</p>
-
+                        
+                        <h5 class="font-weight-bold my-1 text-dark">{{ post.title }}</h5>
                         <div class="box-picture position-relative">
                             <a class="btn transparent  btn-lg  " style="padding: 0!important" role="button"  href="{{url_for('post', id = post.id) }}">
                                 <img class="product-image img-fluid  " src="{{url_for('static', filename= '/images/products/' + post.picture )}}" alt="">
@@ -85,8 +85,8 @@
                         </div>
 
 
-                        <div class="box-header w-100 py-2 px-2 justify-content-between d-flex">
-                            <h5 class="font-weight-bold my-1 text-dark">{{ post.title }}</h5>
+                        <div class="box-header w-100 py-2 px-2 justify-content-end d-flex">
+                            
 
                             <div id='like_btn' class="d-inline-flex">
                                 {% if current_user.is_authenticated %}

@@ -94,33 +94,3 @@ class Likes(db.Model, UserMixin):
 
     def __repr__(self):
         return "Like('ID: ,{},USER ID '{}',POST ID '{}'')".format(self.id,self.user_id,self.post_id)
-
-
-class Product(db.Model, UserMixin):
-    id = db.Column(db.Integer,primary_key=True,nullable=False)
-    productname = db.Column(db.String(60), nullable=False)
-    description = db.Column(db.String(200), nullable=False)
-    price = db.Column(db.Numeric(10,2), nullable=False)
-    category = db.Column(db.String(500), nullable=False)
-    quantity = db.Column(db.Numeric(10,2), nullable=False)
-    details = db.Column(db.String(500), nullable=False)
-    active = db.Column(db.Boolean, default=True,nullable=False)
-    image1 = db.Column(db.String(60),nullable=False,default='ProductDefault.jpeg')
-    image2 = db.Column(db.String(60),nullable=True)
-    image3 = db.Column(db.String(60),nullable=True)
-    image4 = db.Column(db.String(60),nullable=True)
-    image5 = db.Column(db.String(60),nullable=True)
-    premium = db.Column(db.Boolean, default=True,nullable=False)
-    product_price_key = db.Column(db.String(100), nullable=False)
-    def __repr__(self):
-        return "Post('ID: ,{},NAME '{}',TEXT '{}',PRICE '{}', AVAILABILITY '{}', ACTIVE '{}', PREMIUM '{}')".format(self.id,self.productname,self.description,self.price,self.quantity,self.active,self.premium)
-
-
-
-class Orders(db.Model,UserMixin):
-    id = db.Column(db.Integer,primary_key=True,nullable=False)
-    customerID = db.Column(db.Integer,nullable=False)
-    productID = db.Column(db.Integer,nullable=False)
-    quantity = db.Column(db.Numeric(10,2), nullable=False)
-    total_price = db.Column(db.Numeric(10,2), nullable=False)
-    stripe_session_id = db.Column(db.String(200),nullable=True)

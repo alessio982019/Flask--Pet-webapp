@@ -4,10 +4,10 @@ import decimal
 import json
 from flask import render_template, url_for, flash, redirect,request,jsonify,Blueprint,session
 from main import app,db,bcrypt,fujs,socketio,send,emit,mail,ALLOWED_EXTENSIONS
-from main.forms import (RegistrationForm, LoginForm,editProfile,addProductToList,editProduct,
-                        filterProducts,SendEmail, editProduct,addPost, RequestResetForm,editPost,
-                        ResetPassword,ConfirmEmail,addtoShoppingCart,purchaseDetails,editUser,filterPosts)
-from main.models import User, Product,Orders,Post,Likes
+from main.forms import (RegistrationForm, LoginForm,editProfile
+                    ,SendEmail,addPost, RequestResetForm,editPost,
+                        ResetPassword,ConfirmEmail,editUser,filterPosts)
+from main.models import User,Post,Likes
 from flask_login import current_user,login_user,login_required,logout_user
 from time import localtime,strftime
 from flask_mail import Message
@@ -165,7 +165,11 @@ def add_post():
             type = form.type.data
             category = form.category.data
             location = form.location.data
-            picture = save_picture(form.picture.data,500,500)
+            print(form.picture.data)
+            if form.picture.data != None:
+                picture = save_picture(form.picture.data,500,500)
+            else:
+                picture=''
             post = Post(   
                             title=title,
                             text = text,
@@ -189,78 +193,7 @@ def add_post():
             
     return render_template("add_post.html", form=form)
 
-@app.route("/addProduct/",methods=["GET","POST"])
-def addProduct():
-    if request.method=="GET":
 
-        if current_user.is_authenticated:
-            user = User.query.filter_by(id=current_user.id).first()
-            if user.verified == False:
-                return redirect(url_for("confirm_email"))
-        else:
-            flash('You need an account!','error')
-            return redirect(url_for("login"))
-        form = addProductToList()
-        form.category.choices = get_categories_list()
-    if request.method =="POST":
-        if form.validate_on_submit():
-            
-            productname = form.productname.data
-            description  =form.description.data
-            price = form.price.data
-            category  = form.category.data
-            quantity = form.quantity.data
-            details = form.details.data
-            product_price_key = form.product_price_key.data
-            active = True
-
-            try:
-                image1 = save_picture(form.picture.data[0])
-            except:
-                image1 = ""
-
-            try:
-                image2 = save_picture(form.picture.data[1])
-            except:
-                image2 = ""
-
-            try:
-                image3 = save_picture(form.picture.data[2])
-            except:
-                image3 = ""
-            try:
-                image4 = save_picture(form.picture.data[3])
-            except:
-                image4 = ""
-            try:
-                image5 = save_picture(form.picture.data[4])
-            except:
-                image5 = ""
-            NewProduct = Product(   
-                            productname=productname,
-                            description = description,
-                            price=price,
-                            category = category,
-                            quantity = quantity,
-                            details = details,
-                            active= active,
-                            image1= image1,
-                            image2= image2,
-                            image3= image3,
-                            image4= image4,
-                            image5= image5,
-                            product_price_key=product_price_key 
-                            )
-            db.session.add(NewProduct)
-            db.session.commit()
-            flash("New product created: {}".format(productname), "success")
-            return redirect(url_for("home"))
-        elif form.validate_on_submit()==False:
-            for error in form.errors:
-                print(error)
-            flash("Error! Product not created", "error")
-            return render_template("addProduct.html", form=form)
-    return render_template("addProduct.html", form=form)
 
 @app.route("/profile/<int:id>",methods=["GET","POST"])
 def profile(id):
@@ -324,6 +257,7 @@ def logout():
     logout_user()
     flash("You have been logged out successfully","success")
     return redirect(url_for("home"))
+
 @app.route("/clearCart/",methods=["GET","POST"])
 def clearCart():
 
@@ -354,115 +288,7 @@ def add_to_cart():
     
     return render_template("product.html", product=productToAdd,form=form,session=session,totalSum=totalSum,itemsCart=itemsCart)
 
-@app.route("/product/<int:id>",methods=["GET","POST"])
-def product(id):
 
-    productToAdd = Product.query.get_or_404(id)
-    form = addtoShoppingCart()
-    totalSum = 0
-    itemsCart = 0
-    for i in session["cart"]:
-        totalSum = totalSum + i[3]
-        itemsCart = itemsCart+1
-    
-    if request.method == "POST":
-        quantity = float(form.quantity.data)
-        if "cart" not in session:
-            session["cart"] = []
-        
-        if not any(productToAdd.productname in d for d in session["cart"]):
-            total = float(productToAdd.price) * quantity
-            item = [productToAdd.productname,float(productToAdd.price),quantity,total,id,productToAdd.product_price_key]
-            session["cart"].append(item)
-            session.modified = True
-        if 'url' in session:
-            return redirect(session['url'])
-        elif any(productToAdd.productname in d for d in session["cart"]) and "cart"  in session:
-            for d in session["cart"]:
-                total = float(productToAdd.price) * quantity
-                if d[0] == productToAdd.productname:
-                    d[1] = float(productToAdd.price)
-                    d[2] = quantity
-                    d[3] = total
-                    d[4] = id
-                    d[5] = productToAdd.product_price_key
-                    session.modified = True
-            session.modified = True    
-        totalSum = 0
-        itemsCart = 0
-        for i in session["cart"]:
-                totalSum =  totalSum + i[3]
-                itemsCart = itemsCart+1
-        
-        
-        
-        return render_template("product.html", product=productToAdd,form=form,session=session,totalSum=totalSum,itemsCart=itemsCart)
-        
-        
-    if request.method =='GET':
-        print("test")
-
-        return render_template("product.html", product=productToAdd,form=form,session=session,totalSum=totalSum,itemsCart=itemsCart)
-
-@app.route("/edit_product/<string:id>",methods=["GET","POST"])
-def edit_product(id):
-    if current_user.is_authenticated:
-        user = User.query.filter_by(id=current_user.id).first()
-        if user.verified == False:
-            return redirect(url_for("confirm_email"))
-    product_to_edit = Product.query.get_or_404(id)
-    form = editProduct()
-    if request.method =="GET":
-            form.productname.data = product_to_edit.productname
-            form.description.data = product_to_edit.description
-            form.price.data = product_to_edit.price 
-            form.category.data = product_to_edit.category
-            form.quantity.data = product_to_edit.quantity
-            form.details.data = product_to_edit.details
-            form.product_price_key.data = product_to_edit.product_price_key
-            form.active.data = product_to_edit.active
-    if request.method =="POST":
-        if form.validate_on_submit():
-            product_to_edit.productname = form.productname.data
-            product_to_edit.description = form.description.data
-            product_to_edit.price = form.price.data
-            product_to_edit.category = form.category.data
-            product_to_edit.quantity = form.quantity.data
-            product_to_edit.details = form.details.data
-            product_to_edit.product_price_key = form.product_price_key.data
-            product_to_edit.active = form.active.data
-            try:
-                product_to_edit.image1 = save_picture(form.picture.data[0])
-                print(form.picture.data[0])
-            except:
-                product_to_edit.image1 = "ProductDefault.jpeg"
-            try:
-                product_to_edit.image2 = save_picture(form.picture.data[1])
-            except:
-                product_to_edit.image2 = ""
-            try:
-                product_to_edit.image3 = save_picture(form.picture.data[2])
-            except:
-                product_to_edit.image3 = ""
-            try:
-                product_to_edit.image4 = save_picture(form.picture.data[3])
-            except:
-                product_to_edit.image4 = ""
-            try:
-                product_to_edit.image5 = save_picture(form.picture.data[4])
-            except:
-                product_to_edit.image5 = ""
-
-            db.session.commit()
-            flash("Congratulations, product updated", "success")
-            return redirect(url_for("product",id=id))
-        elif form.validate_on_submit()==False:
-            for error in form.errors:
-                print(error)
-            flash("Error! Product not updated", "error")
-            return render_template("edit_product.html", form=form,id=id)
-        
-    return render_template("edit_product.html", form=form,id=id)
 
 @app.route("/post/<int:id>",methods=["GET","POST"])
 def post(id):
