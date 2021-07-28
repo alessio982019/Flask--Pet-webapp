@@ -3,7 +3,7 @@ from PIL import Image,ImageTk
 import decimal
 import json
 from flask import render_template, url_for, flash, redirect,request,jsonify,Blueprint,session
-from main import app,db,bcrypt,fujs,socketio,send,emit,mail,ALLOWED_EXTENSIONS
+from main import app,db,bcrypt,fujs,mail,ALLOWED_EXTENSIONS
 from main.forms import (RegistrationForm, LoginForm,editProfile
                     ,SendEmail,addPost, RequestResetForm,editPost,
                         ResetPassword,ConfirmEmail,editUser,filterPosts)
