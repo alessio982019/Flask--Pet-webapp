@@ -34,6 +34,12 @@ def save_picture(form_picture,width,height):
     newPic.save(picture_path)
     return picture_fn
 
+
+
+@app.route("/intro/",methods=["GET","POST"])
+def intro():
+    return render_template("prev.html")
+
 @app.route("/",methods=["GET","POST"])
 @app.route("/home/",methods=["GET","POST"])
 def home(): 
@@ -50,11 +56,11 @@ def home():
         category = form.category.data
         location = form.location.data
 
-        if title != "":
-            search = "%{}%".format(title)
-            query = query.filter(Post.title.ilike(search))
-        if type != "---":
-            query = query.filter(Post.type == type)
+        # if title != "":
+        #     search = "%{}%".format(title)
+        #     query = query.filter(Post.title.ilike(search))
+        # if type != "---":
+        #     query = query.filter(Post.type == type)
         if category != "---":
             query = query.filter(Post.category == category)
         if location != "":

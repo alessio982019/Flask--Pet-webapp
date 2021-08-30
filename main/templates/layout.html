@@ -22,26 +22,27 @@
     <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='CSS/productstyle.css')}}">
     <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='CSS/main_style.css')}}">
     <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='CSS/adminstyle.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='CSS/style.css')}}">
     <script src="https://js.stripe.com/v3/"></script>
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script src="{{url_for('static',filename='JS/Script.js')}}"></script>
     <title>PetLover</title>
   
       
-
-
+  </head>
+    <body style="background-color:white" class=''>
  
-    <nav class="navbar navbar-expand-lg navbar-light bg-light  py-1 px-lg-5 px-2"  style='height: auto;'>
- 
-      <button class="navbar-toggler"style= "background-color: white;" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <nav class="navbar navbar-expand-lg bg-light navbar-light   py-1   d-flex justify-content-center"  style='height: auto;'>
+  
+      <button class="navbar-toggler" style= "background-color: white;" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
     
-      <div class="collapse navbar-collapse bg-light " id="navbarSupportedContent">
+      <div class="collapse navbar-collapse  " id="navbarSupportedContent">
         <ul class="navbar-nav ml-auto ">
           <li class="nav-item active px-2 py-2 ">
               
-            <a role="button" href="{{ url_for('home') }}" class="nav-link active text-center "><img style="" width=48 src="{{ url_for('static', filename='/images/App/home.svg')}}" alt=""></a>
+            <a role="button" href="{{ url_for('home') }}" class="nav-link active text-center ">Home</a>
                  
           </li>
 
@@ -50,13 +51,13 @@
               
 
               <li class="nav-item px-2 py-2">
-                <a role="button" href="{{ url_for('add_post') }}" class="nav-link active text-center "><img style="" width=48 src="{{ url_for('static', filename='/images/App/add.svg')}}" alt=""></a>
+                <a role="button" href="{{ url_for('add_post') }}" class="nav-link active text-center ">New post</a>
                  
               </li>
 
               {% if current_user.email == 'alessiogiovannini@hotmail.it' %}
               <li class="nav-item px-2 py-2">
-                <a role="button" href="{{ url_for('admin') }}" class="nav-link active text-center "><img style="" width=48 src="{{ url_for('static', filename='/images/App/admin.svg')}}" alt=""></a>
+                <a role="button" href="{{ url_for('admin') }}" class="nav-link active text-center ">Admin</a>
                 
                
             </li>
@@ -64,11 +65,11 @@
               {% if current_user.is_authenticated  %}
 
                       <li class="nav-item px-2 py-2">
-                        <a role="button" href="{{url_for('profile', id = current_user.id) }}" class="nav-link active text-center "><img style="border-radius: 20px;" width=48 src="{{ url_for('static', filename='/images/products/' + current_user.picture)}}" alt=""></a>
+                        <a role="button" href="{{url_for('profile', id = current_user.id) }}" class="nav-link active text-center ">Profile</a>
                          
                       </li>
                       <li class="nav-item px-2 py-2">
-                        <a role="button" href="{{url_for('logout') }}" class="nav-link active text-center" ><img src="{{ url_for('static',filename='/images/App/logout.png')}}" alt=""></a>
+                        <a role="button" href="{{url_for('logout') }}" class="nav-link active text-center" >Sign out</a>
                     </li>
           {% else  %}  
                       <li class="nav-item px-2 py-2">
@@ -88,12 +89,30 @@
 
         
       </div>
+    
     </nav>
 
-  </head>
+    <div  id='intro-container'>
+      <div id="intro-text-container">
+
+        <h3>Keep your money and you'll save one dog! </h3>
+
+        <h1>Look for your best friend in your city </h1>
+        <div class="container-fluid">
+          <input type="text" placeholder="Type your city here...">
+        </div>
+        
+        <button>Go!</button>
+        
+      </div>
+      
+
+
+
+    </div>
  
 
-     <body style="background-color:white">
+   
     
     
     
@@ -137,7 +156,7 @@
 <div class="row d-flex justify-content-center px-2">
 
   <!-- <div class="col-xl-2 col-lg-2 col-md-2 col-sm-1"></div> -->
-  <div id ="main_container" class="col-xl-8 col-lg-8 col-md-12 col-sm-12 col-12 py-2  px-2 my-3 main-content-container" >        
+  <div id ="main_container" class="col-12 py-5  px-2 my-3 main-content-container" >        
         {% block content %}
   
   
