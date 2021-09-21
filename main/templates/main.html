@@ -3,7 +3,24 @@
 
 <div class="container-fluid ">
 
-
+    <div  id='intro-container'>
+        <div id="intro-text-container">
+  
+          <h3>Keep your money and you'll save one dog! </h3>
+  
+          <h1>Look for your best friend in your city </h1>
+          <div class="container-fluid">
+            <input type="text" placeholder="Type your city here...">
+          </div>
+          
+          <button>Go!</button>
+          
+        </div>
+        
+  
+  
+  
+      </div>
 
 
 <!-- <form method="POST" class=''>
@@ -55,20 +72,22 @@
 
 
 </div>
+<div class="container text-center py-5">
+    <h1>Find your dog here! He's waiting for you!</h1>
+</div>
 
-
-<div class="row">
+<div class="row py-2  px-0">
 
     
     {% for post in posts %}
     
     
-            <div class="container-box col-12 col-sm-6 col-md-6 col-xl-3 col-lg-4  p-4 ">
+            <div class="container-box col-12 col-sm-6 col-md-6 col-xl-3 col-lg-3  p-0 p-xs-2 p-sm-4">
                 <div id='container-post' class='py-1 border'>
                 
                     <div class="product-box   text-center " id="product-container "  >
                         
-                        <h5 class="font-weight-bold my-1 text-dark">{{ post.title }}</h5>
+                        <!-- <h5 class="font-weight-bold my-1 text-dark">{{ post.title }}</h5> -->
                         <div class="box-picture position-relative">
                             <a class="btn transparent  btn-lg  " style="padding: 0!important" role="button"  href="{{url_for('post', id = post.id) }}">
                                 <img class="product-image img-fluid  " src="{{url_for('static', filename= '/images/products/' + post.picture )}}" alt="">
@@ -77,7 +96,7 @@
                         </div>
 
 
-                        <div class="box-header w-100 py-2 px-2 justify-content-end d-flex">
+                        <!-- <div class="box-header w-100 py-2 px-2 justify-content-end d-flex">
                             
 
                             <div id='like_btn' class="d-inline-flex">
@@ -114,22 +133,51 @@
                                             {% endif %}
 
                             </div>
-                        </div>
+                        </div> -->
                         
 
 
 
-                        <div class="box-header w-100 text-center  d-flex justify-content-between px-2">
+                        <div class="box-header w-100 text-center  d-flex justify-content-between px-2 py-2">
+                           
                             <small>
-                                <p class="font-light-bold my-1 text-dark">{{ post.author.firstname }}</p>
+                                <p class="font-weight-bold my-1 text-dark">{{ post.location }}</p>
                             </small>
-                            <small>
-                                <p class="font-light-bold my-1 text-dark">{{ post.location }}</p>
-                            </small>
+                            <div id='like_btn' class="d-inline-flex">
+                                {% if current_user.is_authenticated %}
 
-                            <small>
-                                <p class="font-light-bold my-1 text-dark">{{ post.category }}</p>
-                            </small>
+                                                        {% if current_user.has_liked_post(post) %}
+                                                        
+                                                            <a  href="{{ url_for('like_post',id=post.id, action='unlike' ) }}" >
+                                                                <small style="color: black;" class="m-1">{{ post.likes.count() }}</small>
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" style="color: red"fill="currentColor" class="bi bi-heart-fill " viewBox="0 0 16 16">
+                                                                    <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
+                                                                </svg>
+                                                            </a>
+                                                        
+                                                        {% else %}
+                                                            <a  href="{{ url_for('like_post',id=post.id, action='like' ) }}">   
+                                                                <small style="color: black;" class="m-1">{{ post.likes.count() }}</small>
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" style="color: red"fill="currentColor" class="bi bi-heart-fill " viewBox="0 0 16 16">
+                                                                    <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
+                                                                </svg>
+                                                            </a>
+                                                        {% endif %}
+
+
+                                            {% else  %}
+                                                            
+                                            <small style="color: black;" class="m-1">{{ post.likes.count() }}</small>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" style="color: red"fill="currentColor" class="bi bi-heart-fill " viewBox="0 0 16 16">
+                                                <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
+                                            </svg>
+
+                                            
+
+                                            {% endif %}
+
+                            </div>
+
                         </div>
 
 
